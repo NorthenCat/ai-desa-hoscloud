@@ -116,6 +116,7 @@
                                 <p class="pl-1">or drag and drop</p>
                             </div>
                             <p class="text-xs text-gray-500">PNG, JPG, JPEG files up to 10MB each</p>
+                            <p class="text-xs text-red-500 italic">* Max upload file is 1000</p>
                         </div>
                     </div>
 
