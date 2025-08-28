@@ -82,22 +82,12 @@ class ProcessKKDataJob implements ShouldQueue
 
             $responseData = $response->json();
 
-            // Delete the image file after successful processing)
-            Storage::disk('local')->delete($filePath);
-
             // Process the N8N response
             $this->processN8NResponse($responseData);
 
         } catch (\Exception $e) {
             // Update job status - increment failed jobs
             $this->updateJobProgress(true);
-
-            Log::error('Failed to process KK image', [
-                'filename' => $this->kkData['filename'] ?? 'unknown',
-                'error' => $e->getMessage(),
-                'rw_id' => $this->rwId,
-                'batch_id' => $this->batch()->id ?? 'unknown'
-            ]);
 
             // Re-throw to mark job as failed
             throw $e;
@@ -184,6 +174,9 @@ class ProcessKKDataJob implements ShouldQueue
             return;
         }
 
+        $filePath = $this->kkData['file_path'];
+        // Delete the image file after successful processing)
+        Storage::disk('local')->delete($filePath);
         // Send processed data to API server instead of saving locally
         $this->sendToApiServer($data);
     }
@@ -279,11 +272,6 @@ class ProcessKKDataJob implements ShouldQueue
 
             // Check if NoKK exists - if null, create KK with 16 zeros
             if (empty($kkData['NoKK'])) {
-                Log::info('NoKK is null/empty, creating KK with 16 zeros for standalone anggota', [
-                    'filename' => $this->kkData['filename'],
-                    'anggota_count' => count($data['AnggotaKeluarga']),
-                    'batch_id' => $this->batch()->id
-                ]);
 
                 $noKK = '0000000000000000'; // 16 zeros
 
