@@ -800,38 +800,6 @@
         <!-- Failed Files Tab -->
         @if($failedFiles->count() > 0)
         <div id="content-failed-files" class="tab-pane hidden">
-            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                <div>
-                    <h3 class="text-lg font-medium text-gray-900">Files Requiring Manual Processing</h3>
-                    <p class="text-sm text-gray-600">Files that failed processing or contain non-KK data
-                    </p>
-                </div>
-                <div class="flex items-center space-x-3">
-                    @php
-                    $processingErrorFiles = $failedFiles->where('failure_reason', 'processing_error');
-                    @endphp
-                    @if($processingErrorFiles->count() > 0)
-                    <form
-                        action="{{ route('failed-files.retry-all-processing-errors', [$rw->getDesa->id, $localRwInstance->id]) }}"
-                        method="POST" class="inline">
-                        @csrf
-                        <button type="submit"
-                            class="inline-flex items-center px-3 py-2 border border-blue-300 shadow-sm text-sm font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100"
-                            onclick="return confirm('Retry processing for all {{ $processingErrorFiles->count() }} files with processing errors?')">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                            </svg>
-                            Try Again All Processing Errors ({{ $processingErrorFiles->count() }})
-                        </button>
-                    </form>
-                    @endif
-                    <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                        {{ $failedFiles->count() }} files
-                    </span>
-                </div>
-            </div>
             <div class="overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -888,21 +856,7 @@
                                         </svg>
                                         View
                                     </a>
-                                    <form
-                                        action="{{ route('failed-files.retry', [$rw->getDesa->id, $localRwInstance->id, $file->id]) }}"
-                                        method="POST" class="inline">
-                                        @csrf
-                                        <button type="submit"
-                                            class="inline-flex items-center px-2.5 py-1.5 border border-blue-300 shadow-sm text-xs font-medium rounded text-blue-700 bg-blue-50 hover:bg-blue-100"
-                                            onclick="return confirm('Try to process this file again?')">
-                                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                            </svg>
-                                            Try Again
-                                        </button>
-                                    </form>
+
                                     <form
                                         action="{{ route('failed-files.mark-processed', [$rw->getDesa->id, $localRwInstance->id, $file->id]) }}"
                                         method="POST" class="inline">
