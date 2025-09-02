@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,26 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserHasApiToken
 {
+    /**
+     * Get API URL from database settings with fallback to config
+     */
+    private function getApiUrl(): string
+    {
+        // First try to get from database
+        $apiUrl = Setting::getApiUrl();
+
+        // Fallback to config if not found in database
+        if (!$apiUrl) {
+            $apiUrl = config('app.api_url');
+        }
+
+        // Final fallback to default URL
+        if (!$apiUrl) {
+            $apiUrl = config('app.url', 'http://127.0.0.1:8000') . '/api';
+        }
+
+        return $apiUrl;
+    }
     /**
      * Handle an incoming request.
      *
@@ -40,10 +61,10 @@ class EnsureUserHasApiToken
         // TODO: In the future, we can add API server token generation if needed
         $this->createLocalApiToken($user);
 
-        /* 
+        /*
         // Optional: Try to get token from API server if available
         try {
-            $apiUrl = config('app.api_url');
+            $apiUrl = $this->getApiUrl();
             if ($apiUrl && $apiUrl !== config('app.url', 'http://127.0.0.1:8000') . '/api') {
                 // Only try API server if it's different from local server
                 $this->tryApiServerToken($user, $apiUrl);

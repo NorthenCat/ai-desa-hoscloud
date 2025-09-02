@@ -72,6 +72,10 @@
                                         class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">
                                         <i class="fas fa-home mr-2"></i>Dashboard
                                     </a>
+                                    <a href="{{ route('settings.index') }}"
+                                        class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">
+                                        <i class="fas fa-cog mr-2"></i>Settings
+                                    </a>
                                     <a href="{{ route('logout') }}"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                                         class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">

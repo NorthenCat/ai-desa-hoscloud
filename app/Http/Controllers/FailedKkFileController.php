@@ -2,20 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\HasApiUrl;
 use App\Models\FailedKkFile;
 use App\Models\RW;
 use Illuminate\Http\Request;
 
 class FailedKkFileController extends Controller
 {
-    private function getApiUrl()
-    {
-        $apiUrl = config('app.api_url');
-        if (!$apiUrl) {
-            $apiUrl = config('app.url', 'http://127.0.0.1:8000') . '/api';
-        }
-        return $apiUrl;
-    }
+    use HasApiUrl;
 
     private function getApiToken()
     {

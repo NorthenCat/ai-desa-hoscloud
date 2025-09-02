@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\HasApiUrl;
 use App\Models\Desa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class DasboardController extends Controller
 {
+    use HasApiUrl;
+
     public function index()
     {
         try {
-            // Get API URL from config, with proper fallback
-            $apiUrl = config('app.api_url');
-
-            if (!$apiUrl) {
-                // If no API URL configured, use local API
-                $apiUrl = config('app.url', 'http://localhost') . '/api';
-            }
+            // Get API URL from database/config
+            $apiUrl = $this->getApiUrl();
 
             $fullUrl = $apiUrl . '/desa';
 
@@ -35,6 +33,7 @@ class DasboardController extends Controller
                 ->get($fullUrl, [
                     'user_id' => session('api_user')['id'] ?? null
                 ]);
+
 
             if ($response->successful()) {
                 $apiData = $response->json();

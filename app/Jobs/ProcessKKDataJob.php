@@ -49,10 +49,14 @@ class ProcessKKDataJob implements ShouldQueue
 
         try {
 
-            // Get webhook URL from environment config
-            $webhookUrl = config('app.webhook_n8n');
+            // Get webhook URL from settings table with fallback to config
+            $webhookUrl = Setting::getWebhookUrl();
             if (!$webhookUrl) {
-                throw new \Exception('N8N webhook URL not configured');
+                $webhookUrl = config('app.webhook_n8n');
+            }
+
+            if (!$webhookUrl) {
+                throw new \Exception('N8N webhook URL not configured in settings or environment');
             }
 
             $filePath = $this->kkData['file_path'];
@@ -184,9 +188,11 @@ class ProcessKKDataJob implements ShouldQueue
     private function sendToApiServer(array $data)
     {
         try {
-            // Get API settings
-            $setting = Setting::first();
-            $apiUrl = config('app.api_url');
+            // Get API URL from settings table with fallback to config
+            $apiUrl = Setting::getApiUrl();
+            if (!$apiUrl) {
+                $apiUrl = config('app.api_url');
+            }
             if (!$apiUrl) {
                 $apiUrl = config('app.url', 'http://127.0.0.1:8000') . '/api';
             }

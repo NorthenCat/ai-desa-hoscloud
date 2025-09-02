@@ -12,7 +12,8 @@ return new class extends Migration {
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('webhook_n8n')->nullable();
+            $table->string('context')->nullable();
+            $table->string('content')->nullable();
             $table->timestamps();
         });
     }

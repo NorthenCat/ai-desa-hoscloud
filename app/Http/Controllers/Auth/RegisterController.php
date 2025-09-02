@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\HasApiUrl;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
+    use HasApiUrl;
 
     /**
      * Show the application registration form.
@@ -28,10 +30,7 @@ class RegisterController extends Controller
     {
         try {
             // Get API URL for registration
-            $apiUrl = config('app.api_url');
-            if (!$apiUrl) {
-                $apiUrl = config('app.url', 'http://127.0.0.1:8000') . '/api';
-            }
+            $apiUrl = $this->getApiUrl();
 
             // Register with API server
             $response = Http::timeout(10)->post($apiUrl . '/auth/register', [

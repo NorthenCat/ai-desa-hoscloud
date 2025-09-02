@@ -12,7 +12,11 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        $settings = Setting::all()->pluck('value', 'key');
+        $settings = [
+            'api_url' => Setting::getApiUrl() ?? '',
+            'webhook_url' => Setting::getWebhookUrl() ?? '',
+        ];
+
         return view('settings.index', compact('settings'));
     }
 
@@ -22,23 +26,24 @@ class SettingsController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'settings' => 'required|array',
-            'settings.*' => 'string|nullable'
+            'api_url' => 'nullable|string|url',
+            'webhook_url' => 'nullable|string|url'
         ]);
 
         try {
-            $settings = $request->input('settings', []);
+            // Update API URL
+            if ($request->has('api_url')) {
+                Setting::setByContext('api_url', $request->input('api_url'));
+            }
 
-            foreach ($settings as $key => $value) {
-                Setting::updateOrCreate(
-                    ['key' => $key],
-                    ['value' => $value]
-                );
+            // Update Webhook URL
+            if ($request->has('webhook_url')) {
+                Setting::setByContext('webhook_url', $request->input('webhook_url'));
             }
 
             return redirect()->route('settings.index')->with('success', 'Settings updated successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('settings.index')->with('error', 'Failed to update settings.');
+            return redirect()->route('settings.index')->with('error', 'Failed to update settings: ' . $e->getMessage());
         }
     }
 }

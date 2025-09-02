@@ -67,7 +67,7 @@ Route::middleware(['auth', 'api.auth'])->group(function () {
 
     // Settings Route
     Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings.index');
-    Route::post('/settings', [\App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
+    Route::put('/settings', [\App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
 
     // Failed Files Routes
     Route::get('/desa/{desa}/rw/{rw}/failed-files/{file}', [\App\Http\Controllers\FailedKkFileController::class, 'show'])->name('failed-files.show');

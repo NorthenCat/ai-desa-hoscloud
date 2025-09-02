@@ -14,9 +14,18 @@ class SettingWebSeeder extends Seeder
     public function run(): void
     {
         $setting = [
-            'webhook_n8n' => 'http://localhost:5678/webhook/74a19a60-ca35-4e4e-a28b-91800013ef50',
+            [
+                'context' => 'webhook_url',
+                'content' => 'http://localhost:5678/webhook/74a19a60-ca35-4e4e-a28b-91800013ef50',
+            ],
+            [
+                'context' => 'api_url',
+                'content' => 'http://127.0.0.1:8000/api',
+            ]
         ];
 
-        Setting::create($setting);
+        foreach ($setting as $data) {
+            Setting::create($data);
+        }
     }
 }

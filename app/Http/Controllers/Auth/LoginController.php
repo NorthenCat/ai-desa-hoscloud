@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\HasApiUrl;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,7 @@ use Str;
 
 class LoginController extends Controller
 {
+    use HasApiUrl;
 
     /**
      * Show the application's login form.
@@ -41,10 +43,7 @@ class LoginController extends Controller
 
         try {
             // Get API URL for authentication
-            $apiUrl = config('app.api_url');
-            if (!$apiUrl) {
-                $apiUrl = config('app.url', 'http://127.0.0.1:8000') . '/api';
-            }
+            $apiUrl = $this->getApiUrl();
 
             // Authenticate with API server
             $response = Http::timeout(10)->post($apiUrl . '/auth/login', [
@@ -124,10 +123,7 @@ class LoginController extends Controller
         try {
             // If we have an API token, try to logout from API server
             if (session('api_token')) {
-                $apiUrl = config('app.api_url');
-                if (!$apiUrl) {
-                    $apiUrl = config('app.url', 'http://localhost') . '/api';
-                }
+                $apiUrl = $this->getApiUrl();
 
                 Http::timeout(5)
                     ->withToken(session('api_token'))

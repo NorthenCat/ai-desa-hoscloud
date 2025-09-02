@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\HasApiUrl;
 use App\Models\Desa;
 use App\Models\DesaUser;
 use App\Models\User;
@@ -11,14 +12,7 @@ use Illuminate\Support\Str;
 
 class DesaController extends Controller
 {
-    private function getApiUrl()
-    {
-        $apiUrl = config('app.api_url');
-        if (!$apiUrl) {
-            $apiUrl = config('app.url', 'http://127.0.0.1:8000') . '/api';
-        }
-        return $apiUrl;
-    }
+    use HasApiUrl;
 
     private function getApiToken()
     {
