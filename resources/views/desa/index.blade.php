@@ -123,7 +123,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">{{ $desa->nama_desa }}</h1>
-                <p class="mt-2 text-gray-600">Manage RW and users for this village</p>
+                <p class="mt-2 text-gray-600">Manage Batch and users for this village</p>
             </div>
             <div class="flex space-x-3">
                 <a href="{{ route('rw.create', $desa->id) }}"
@@ -148,7 +148,7 @@
 
     <!-- RW Cards -->
     <div class="mb-12">
-        <h2 class="text-xl font-semibold text-gray-900 mb-6">RW List</h2>
+        <h2 class="text-xl font-semibold text-gray-900 mb-6">Batch List</h2>
         @if($desa->getRw->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($desa->getRw as $rw)
@@ -209,8 +209,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
-            <h3 class="mt-2 text-sm font-medium text-gray-900">No RW found</h3>
-            <p class="mt-1 text-sm text-gray-500">Get started by creating a new RW.</p>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No Batch found</h3>
+            <p class="mt-1 text-sm text-gray-500">Get started by creating a new Batch.</p>
             <div class="mt-6">
                 <a href="{{ route('rw.create', $desa->id) }}"
                     class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
@@ -218,7 +218,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
-                    Add RW
+                    Add Batch
                 </a>
             </div>
         </div>

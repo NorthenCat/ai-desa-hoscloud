@@ -28,7 +28,7 @@
                 <div class="flex justify-between h-16">
                     <div class="flex">
                         <div class="flex-shrink-0 flex items-center">
-                            <a href="{{ url('/') }}" class="text-xl font-semibold text-gray-900">
+                            <a href="{{ route('dashboard') }}" class="text-xl font-semibold text-gray-900">
                                 {{ config('app.name', 'KK Desa') }}
                             </a>
                         </div>
