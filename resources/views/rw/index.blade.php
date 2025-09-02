@@ -102,7 +102,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">{{ $rw->nama_rw }}</h1>
-                <p class="mt-2 text-gray-600">{{ $rw->getDesa->nama_desa }} - Manage KK and residents for this RW
+                <p class="mt-2 text-gray-600">{{ $rw->getDesa->nama_desa }} - Manage KK and residents for this Batch
                 </p>
             </div>
             <div class="flex space-x-3">
@@ -190,7 +190,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
-                    Edit RW
+                    Edit Batch
                 </a>
             </div>
         </div>
@@ -459,7 +459,7 @@
             <div id="content-kk-list" class="tab-pane active">
                 <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-900">Kepala Keluarga (KK) List</h3>
-                    <p class="text-sm text-gray-600">Manage families in this RW</p>
+                    <p class="text-sm text-gray-600">Manage families in this Batch</p>
                 </div>
 
                 <div class="p-6">

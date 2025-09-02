@@ -16,11 +16,11 @@ class SettingWebSeeder extends Seeder
         $setting = [
             [
                 'context' => 'webhook_url',
-                'content' => 'http://localhost:5678/webhook/74a19a60-ca35-4e4e-a28b-91800013ef50',
+                'content' => 'http://103.49.239.117:5678/webhook/74a19a60-ca35-4e4e-a28b-91800013ef50',
             ],
             [
                 'context' => 'api_url',
-                'content' => 'http://127.0.0.1:8000/api',
+                'content' => 'http://103.49.239.117:8010/api',
             ]
         ];
 

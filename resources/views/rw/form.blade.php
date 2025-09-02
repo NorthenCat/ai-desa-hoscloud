@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', isset($rw) ? 'Edit RW' : 'Create RW')
+@section('title', isset($rw) ? 'Edit Batch' : 'Create Batch')
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -59,7 +59,7 @@
                         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                         clip-rule="evenodd" />
                 </svg>
-                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">Create RW</span>
+                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">Create Batch</span>
             </div>
         </li>
         @endif
@@ -68,7 +68,8 @@
     <div class="max-w-2xl mx-auto">
         <div class="bg-white shadow-lg rounded-lg overflow-hidden">
             <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
-                <h3 class="text-lg font-semibold text-gray-900">{{ isset($rw) ? 'Edit RW' : 'Create New RW' }}</h3>
+                <h3 class="text-lg font-semibold text-gray-900">{{ isset($rw) ? 'Edit Batch' : 'Create New Batch' }}
+                </h3>
                 <a href="{{ route('desa.show', isset($rw) ? $rw->getDesa->id : $desa->id) }}"
                     class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,11 +113,11 @@
 
                 <div>
                     <label for="nama_rw" class="block text-sm font-medium text-gray-700 mb-2">
-                        Nama RW <span class="text-red-500">*</span>
+                        Nama Batch <span class="text-red-500">*</span>
                     </label>
                     <input type="text" id="nama_rw" name="nama_rw"
                         value="{{ old('nama_rw', isset($rw) ? $rw->nama_rw : '') }}"
-                        placeholder="Enter RW name (e.g., RW 01)" required
+                        placeholder="Enter Batch name (e.g., RW 01)" required
                         class="block w-full px-3 py-2 border @error('nama_rw') border-red-300 @else border-gray-300 @enderror rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     @error('nama_rw')
                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -134,7 +135,7 @@
                     @error('google_drive')
                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
-                    <p class="mt-2 text-sm text-gray-500">Optional: Enter Google Drive folder link for this RW</p>
+                    <p class="mt-2 text-sm text-gray-500">Optional: Enter Google Drive folder link for this Batch</p>
                 </div>
 
                 <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
