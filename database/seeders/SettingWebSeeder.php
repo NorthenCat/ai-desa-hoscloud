@@ -25,7 +25,7 @@ class SettingWebSeeder extends Seeder
         ];
 
         foreach ($setting as $data) {
-            Setting::create($data);
+            Setting::firstOrCreate(['context' => $data['context']], $data);
         }
     }
 }

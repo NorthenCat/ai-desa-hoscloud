@@ -240,7 +240,57 @@ class ProcessKKDataJob implements ShouldQueue
             $responseData = $response->json();
 
             if (!$responseData['success']) {
-                throw new \Exception('API server returned error: ' . ($responseData['message'] ?? 'Unknown error'));
+                // Create failed KK file locally when API returns failure
+                $failureReason = 'api_processing_failed';
+                $errorMessage = $responseData['message'] ?? 'Unknown API error';
+
+                // Map specific API failure reasons to our failure types
+                if (isset($responseData['data']['failure_reason'])) {
+                    switch ($responseData['data']['failure_reason']) {
+                        case 'not_kk':
+                            $failureReason = 'not_kk';
+                            break;
+                        case 'no_anggota_data':
+                            $failureReason = 'no_anggota_data';
+                            break;
+                        case 'duplicate_nik_in_anggota':
+                            $failureReason = 'duplicate_nik_in_anggota';
+                            break;
+                        case 'nik_already_exists':
+                            $failureReason = 'nik_already_exists';
+                            break;
+                        case 'duplicate_kk':
+                            $failureReason = 'duplicate_kk';
+                            break;
+                        default:
+                            $failureReason = 'api_processing_failed';
+                    }
+                }
+
+                FailedKkFile::create([
+                    'rw_id' => $this->rwId,
+                    'batch_id' => $this->batch()->id,
+                    'filename' => $this->kkData['filename'],
+                    'original_filename' => $this->kkData['original_filename'] ?? null,
+                    'file_path' => $this->kkData['file_path'],
+                    'raw_text' => $data['raw_text'] ?? null,
+                    'failure_reason' => $failureReason,
+                    'error_message' => $errorMessage,
+                    'n8n_response' => $data,
+                ]);
+
+                Log::error('API server returned failure, created local failed file', [
+                    'filename' => $this->kkData['filename'],
+                    'api_error' => $errorMessage,
+                    'failure_reason' => $failureReason,
+                    'api_response_data' => $responseData['data'] ?? null,
+                    'rw_id' => $this->rwId,
+                    'batch_id' => $this->batch()->id
+                ]);
+
+                // Mark as failed job
+                $this->updateJobProgress(true);
+                return;
             }
 
             // Update job status - increment processed jobs
@@ -254,8 +304,21 @@ class ProcessKKDataJob implements ShouldQueue
                 'batch_id' => $this->batch()->id
             ]);
 
-            // Fallback to local processing if API fails
-            $this->processN8NResponseLocally($data);
+            // Create failed KK file locally when API request fails
+            FailedKkFile::create([
+                'rw_id' => $this->rwId,
+                'batch_id' => $this->batch()->id,
+                'filename' => $this->kkData['filename'],
+                'original_filename' => $this->kkData['original_filename'] ?? null,
+                'file_path' => $this->kkData['file_path'],
+                'raw_text' => $data['raw_text'] ?? null,
+                'failure_reason' => 'api_connection_failed',
+                'error_message' => 'Failed to connect to API server: ' . $e->getMessage(),
+                'n8n_response' => $data,
+            ]);
+
+            // Mark as failed job
+            $this->updateJobProgress(true);
         }
     }
 

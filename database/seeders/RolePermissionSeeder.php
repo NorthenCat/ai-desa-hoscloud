@@ -16,16 +16,24 @@ class RolePermissionSeeder extends Seeder
     public function run(): void
     {
 
-        $superAdminRole = Role::create(['name' => 'super-admin']);
-        $adminRole = Role::create(['name' => 'admin']);
+        // Check if roles already exist
+        if (!Role::where('name', 'super-admin')->exists()) {
+            $superAdminRole = Role::create(['name' => 'super-admin']);
+        }
 
-        // Create default super admin user
-        $superAdmin = User::create([
-            'name' => 'Support',
-            'email' => 'support@mail.com',
-            'password' => bcrypt('Mitra123'),
-            'email_verified_at' => now(),
-        ]);
-        $superAdmin->assignRole('super-admin');
+        if (!Role::where('name', 'admin')->exists()) {
+            $adminRole = Role::create(['name' => 'admin']);
+        }
+
+        // Check if super admin user already exists
+        if (!User::where('email', 'support@mail.com')->exists()) {
+            $superAdmin = User::create([
+                'name' => 'Support',
+                'email' => 'support@mail.com',
+                'password' => bcrypt('Mitra123'),
+                'email_verified_at' => now(),
+            ]);
+            $superAdmin->assignRole('super-admin');
+        }
     }
 }

@@ -2,7 +2,15 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\DatabaseSetupController;
 use Illuminate\Support\Facades\Route;
+
+// Database Setup Routes (should work even without authentication)
+Route::prefix('api/database')->group(function () {
+    Route::get('/auto-setup', [DatabaseSetupController::class, 'autoSetup'])->name('database.auto-setup');
+    Route::get('/status', [DatabaseSetupController::class, 'status'])->name('database.status');
+    Route::post('/reset', [DatabaseSetupController::class, 'resetDatabase'])->name('database.reset');
+});
 
 Route::middleware(['guest'])->group(function () {
     // Authentication Routes
